@@ -1,16 +1,13 @@
-# cardco
+# Assignment 6
 
-A new Flutter project.
+### What are the main differences between stateless and stateful widget in Flutter?
+Stateless widgets only have one unchanging state. Stateful widgets have more than one state, which allows them to maintain and update their internal state.
 
-## Getting Started
+### Explain all widgets that you used in this assignment.
+* Material App
+* Scaffold
+* Material
 
-This project is a starting point for a Flutter application.
+### How do you implement the tasks in the checklist?
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+* __Create a new Django project:__<br>
