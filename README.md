@@ -5,7 +5,7 @@ Stateless widgets only have one unchanging state. Stateful widgets have more tha
 
 ### Explain all widgets that you used in this assignment.
 * MaterialApp: This is the root widget for a Flutter application.
-* MyHomePage:
+* MyHomePage: Is a statelesswidget
 * SingleChildScrollView: A widget that provides a scrollable view for its child, allowing you to scroll through content that doesn't fit on the screen.
 * Padding: A widget used to add padding (empty space) around its child widgets to control their spacing and layout.
 * Column: A layout widget that arranges its children in a vertical column, one below the other.
