@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:cardco/widgets/left_drawer.dart';
+import 'package:cardco/screens/itemlist_form.dart';
+import 'package:cardco/screens/itemlist.dart';
 
 class MyHomePage extends StatelessWidget {
   MyHomePage({Key? key}) : super(key: key);
@@ -13,8 +16,13 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('CardCo'),
-      ),
+        title: const Text(
+          'CardCo'
+          ),
+      backgroundColor: Colors.indigo,
+      foregroundColor: Colors.white,
+    ),
+      drawer: const LeftDrawer(),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(10.0),
@@ -53,7 +61,7 @@ class MyHomePage extends StatelessWidget {
 class CardItem {
   final String name;
   final IconData icon;
-  final Color color; // Added color property
+  final Color color;
 
   CardItem(this.name, this.icon, this.color);
 }
@@ -66,13 +74,29 @@ class ItemCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: item.color, // Use the provided color
+      color: item.color,
       child: InkWell(
         onTap: () {
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(SnackBar(
                 content: Text("You clicked the ${item.name} button!")));
+                if (item.name == 'Add Items') {
+                  Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ItemFormPage(),
+                ),
+              );
+                }
+                if (item.name == 'View Items') {
+                  Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ItemListPage(),
+                ),
+              );
+                }
         },
         child: Container(
           padding: const EdgeInsets.all(8),

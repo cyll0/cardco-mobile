@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:cardco/menu.dart';
+import 'package:cardco/screens/menu.dart';
 
 void main() {
   runApp(const MyApp());
