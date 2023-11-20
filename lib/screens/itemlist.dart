@@ -1,102 +1,102 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:cardco/models/item.dart';
 import 'package:cardco/widgets/left_drawer.dart';
-import 'package:cardco/screens/itemlist_form.dart';
+import 'package:cardco/screens/itempage.dart';
 
-
-
-class ItemListPage extends StatefulWidget {
-    const ItemListPage({super.key});
+class ItemPage extends StatefulWidget {
+    const ItemPage({Key? key}) : super(key: key);
 
     @override
-    State<ItemListPage> createState() => _ItemListPageState();
+    _ItemPageState createState() => _ItemPageState();
 }
 
-class _ItemListPageState extends State<ItemListPage> {
-    @override
-    Widget build(BuildContext context) {
-        return Scaffold(
-        appBar: AppBar(
-                title: const Center(
-                child: Text(
-                    'Card List Page',
-                ),
-                ),
-                backgroundColor: Colors.indigo,
-                foregroundColor: Colors.white,
-            ),
-        drawer: const LeftDrawer(),
-        body: SingleChildScrollView(
-    child: Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: Column(
-        children: <Widget>[
-          const Padding(
-            padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-            child: Text(
-              "Currently Saved Cards:",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          GridView.count(
-            primary: true,
-            padding: const EdgeInsets.all(20),
-            crossAxisSpacing: 10,
-            mainAxisSpacing: 10,
-            crossAxisCount: 3,
-            shrinkWrap: true,
-            children: itemObjects.map((ItemObject item) {
-              return ViewItem(item);
-            }).toList(),
-          ),
-        ],
-      ),
-    ),
-  ),
-        );
-}
-}
-
-class ViewItem extends StatelessWidget {
-  final ItemObject item;
-
-  const ViewItem(this.item, {Key? key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      color: Colors.indigo,
-      child: InkWell(
-        child: Container(
-          padding: const EdgeInsets.all(8),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Padding(padding: EdgeInsets.all(7)),
-                Text(
-                  "Name: ${item.name}",
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(color: Colors.white),
-                ),
-                Text(
-                  "Amount: ${item.amount.toString()}",
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(color: Colors.white),
-                ),
-                Text(
-                  "Description: ${item.description}",
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(color: Colors.white),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
+class _ItemPageState extends State<ItemPage> {
+Future<List<Item>> fetchItem() async {
+    var url = Uri.parse(
+        'http://127.0.0.1:8000/json/');
+    var response = await http.get(
+        url,
+        headers: {"Content-Type": "application/json"},
     );
-  }
+
+    // decode the response to JSON
+    var data = jsonDecode(utf8.decode(response.bodyBytes));
+
+    // convert the JSON to Product object
+    List<Item> list_item = [];
+    for (var d in data) {
+        if (d != null) {
+            list_item.add(Item.fromJson(d));
+        }
+    }
+    return list_item;
+}
+
+@override
+Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+        title: const Text('Item'),
+        ),
+        drawer: const LeftDrawer(),
+        body: FutureBuilder(
+            future: fetchItem(),
+            builder: (context, AsyncSnapshot snapshot) {
+                if (snapshot.data == null) {
+                    return const Center(child: CircularProgressIndicator());
+                } else {
+                    if (!snapshot.hasData) {
+                    return const Column(
+                        children: [
+                        Text(
+                            "No item data available.",
+                            style:
+                                TextStyle(color: Color(0xff59A5D8), fontSize: 20),
+                        ),
+                        SizedBox(height: 8),
+                        ],
+                    );
+                } else {
+                        return ListView.builder(
+                        itemCount: snapshot.data!.length,
+                        itemBuilder: (_, index) => InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ItemDetailPage(item: snapshot.data![index]),
+                              ),
+                            );
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                            padding: const EdgeInsets.all(20.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "${snapshot.data![index].fields.name}",
+                                  style: const TextStyle(
+                                    fontSize: 18.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const SizedBox(height: 10),
+                                Text("${snapshot.data![index].fields.amount}"),
+                                const SizedBox(height: 10),
+                                Text("${snapshot.data![index].fields.description}"),
+                                const SizedBox(height: 10),
+                                Text("${snapshot.data![index].fields.dateAdded}")
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    }
+                }
+            }));
+    }
 }

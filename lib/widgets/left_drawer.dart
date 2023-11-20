@@ -65,16 +65,16 @@ class LeftDrawer extends StatelessWidget {
             },
           ),
           ListTile(
-              leading: const Icon(Icons.checklist),
-              title: const Text('View Items'),
+              leading: const Icon(Icons.shopping_basket),
+              title: const Text('Product List'),
               onTap: () {
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const ItemListPage(),
-                    ));
+                  // Route menu to product page
+                  Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ItemPage()),
+                  );
               },
-            ),
+          ),
         ],
       ),
     );
