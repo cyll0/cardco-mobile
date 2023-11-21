@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:cardco/models/item.dart';
 import 'package:cardco/widgets/left_drawer.dart';
 import 'package:cardco/screens/itempage.dart';
+import 'package:pbp_django_auth/pbp_django_auth.dart';
+import 'package:provider/provider.dart';
 
 class ItemPage extends StatefulWidget {
     const ItemPage({Key? key}) : super(key: key);
@@ -14,19 +15,15 @@ class ItemPage extends StatefulWidget {
 
 class _ItemPageState extends State<ItemPage> {
 Future<List<Item>> fetchItem() async {
-    var url = Uri.parse(
-        'http://127.0.0.1:8000/json/');
-    var response = await http.get(
-        url,
-        headers: {"Content-Type": "application/json"},
-    );
+    final request = context.watch<CookieRequest>();
+    final response = await request.get('http://127.0.0.1:8000/json/');
 
     // decode the response to JSON
-    var data = jsonDecode(utf8.decode(response.bodyBytes));
+    //var data = jsonDecode(utf8.decode(response.bodyBytes));
 
     // convert the JSON to Product object
     List<Item> list_item = [];
-    for (var d in data) {
+    for (var d in response) {
         if (d != null) {
             list_item.add(Item.fromJson(d));
         }
@@ -39,6 +36,8 @@ Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
         title: const Text('Item'),
+        backgroundColor: Colors.indigo,
+        foregroundColor: Colors.white,
         ),
         drawer: const LeftDrawer(),
         body: FutureBuilder(

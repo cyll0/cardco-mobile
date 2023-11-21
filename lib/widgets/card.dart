@@ -22,7 +22,7 @@ class ItemCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final request = context.watch<CookieRequest>();
     return Material(
-      color: Colors.indigo,
+      color: item.color,
       child: InkWell(
         onTap: () async {
           ScaffoldMessenger.of(context)
@@ -39,7 +39,8 @@ class ItemCard extends StatelessWidget {
               );
           } else if (item.name == "View Items") {
             Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const ItemPage()));
+                MaterialPageRoute(builder: (context) => const ItemPage())
+                );
           } else if (item.name == "Logout") {
             final response = await request.logout(
                 "http://127.0.0.1:8000/auth/logout/");

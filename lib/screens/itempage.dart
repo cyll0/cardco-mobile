@@ -28,8 +28,6 @@ class ItemDetailPage extends StatelessWidget {
             SizedBox(height: 8),
             Text('Discount: ${item.fields.isDiscount}'),
             SizedBox(height: 8),
-            Text('Added by: user [${item.fields.user}]'),
-            SizedBox(height: 8),
             Text('Date Added: ${item.fields.dateAdded}'),
             SizedBox(height: 16),
             ElevatedButton(
