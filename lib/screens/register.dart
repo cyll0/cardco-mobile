@@ -136,6 +136,24 @@ class _RegisterPageState extends State<RegisterPage> {
                             },
                             child: const Text('Register'),
                         ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            const Text("Already have an account?"),
+                            TextButton(
+                              child: const Text(
+                                'Login',
+                                style: TextStyle(fontSize: 14),
+                              ),
+                              onPressed: () {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => const LoginPage()),
+                                );
+                              },
+                            )
+                          ],
+                        ),
                     ],
                 ),
             ),

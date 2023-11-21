@@ -4,6 +4,7 @@ import 'package:cardco/screens/menu.dart';
 import 'package:flutter/material.dart';
 import 'package:pbp_django_auth/pbp_django_auth.dart';
 import 'package:provider/provider.dart';
+import 'package:cardco/screens/register.dart';
 
 void main() {
     runApp(const LoginApp());
@@ -105,6 +106,24 @@ class _LoginPageState extends State<LoginPage> {
                                 }
                             },
                             child: const Text('Login'),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            const Text("Don't have an account?"),
+                            TextButton(
+                              child: const Text(
+                                'Register',
+                                style: TextStyle(fontSize: 14),
+                              ),
+                              onPressed: () {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => const RegisterPage()),
+                                );
+                              },
+                            )
+                          ],
                         ),
                     ],
                 ),
