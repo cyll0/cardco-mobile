@@ -17,9 +17,6 @@ Future<List<Item>> fetchItem() async {
     final request = context.watch<CookieRequest>();
     final response = await request.get('http://127.0.0.1:8000/json/');
 
-    // decode the response to JSON
-    //var data = jsonDecode(utf8.decode(response.bodyBytes));
-
     // convert the JSON to Product object
     List<Item> list_item = [];
     for (var d in response) {
